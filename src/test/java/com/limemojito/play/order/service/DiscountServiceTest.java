@@ -17,28 +17,41 @@ import org.junit.Test;
 import javax.money.MonetaryAmount;
 
 import static com.limemojito.play.order.model.InventoryCategory.FURNITURE;
-import static com.limemojito.play.order.model.InventoryCategory.GROCERIES;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class DiscountServiceTest extends UnitTest {
 
+    private final DiscountService service = new DiscountService();
+
+    @Test
+    public void shouldApplyNoDiscounts() throws Exception {
+        ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", false, false, null));
+        addItemsThatSumToOneHundred(cart);
+
+        performDiscount(cart, 0);
+    }
+
     @Test
     public void shouldComputeAThirtyPercentDiscountForEmployee() throws Exception {
         ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", true, false, null));
-
         addItemsThatSumToOneHundred(cart);
 
-        DiscountService service = new DiscountService();
-        MonetaryAmount discount = service.calculateDiscount(cart);
+        performDiscount(cart, 30.0);
+    }
 
-        assertThat(discount, is(Money.of(70, "AUD")));
+    private void performDiscount(ShoppingCart cart, double discountAmount) {
+        assertAmountAud(service.calculateDiscount(cart), discountAmount);
+    }
+
+    private void assertAmountAud(MonetaryAmount discount, double discountAmount) {
+        assertThat(discount, is(Money.of(discountAmount, "AUD")));
     }
 
     private void addItemsThatSumToOneHundred(ShoppingCart cart) {
         cart.add(pojoFactory.createLineItemAud(FURNITURE, 1, 56.78));
-        cart.add(pojoFactory.createLineItemAud(GROCERIES, 2, 21.61));
-        assertThat(cart.getGrossTotal(), is(Money.of(100.00, "AUD")));
+        cart.add(pojoFactory.createLineItemAud(FURNITURE, 2, 21.61));
+        assertAmountAud(cart.getGrossTotal(), 100.00);
     }
 
 }

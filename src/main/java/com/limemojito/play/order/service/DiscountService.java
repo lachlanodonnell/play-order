@@ -15,7 +15,7 @@ import javax.money.MonetaryAmount;
 
 public class DiscountService {
 
-    private static final double THRITY_PERCENT_DISCOUNT = 0.7;
+    private static final double THRITY_PERCENT_DISCOUNT = 0.3;
 
     public MonetaryAmount calculateDiscount(ShoppingCart cart) {
         MonetaryAmount totalDiscount = Money.of(0, "AUD");
