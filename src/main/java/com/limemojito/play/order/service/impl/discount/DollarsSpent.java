@@ -16,6 +16,8 @@ import javax.money.MonetaryAmount;
 
 public class DollarsSpent implements DiscountRule {
 
+    private static final int FIVE_CURRENCY_UNITS = 5;
+
     @Override
     public boolean applies(ShoppingCart cart) {
         return true;
@@ -25,6 +27,6 @@ public class DollarsSpent implements DiscountRule {
     public MonetaryAmount calculate(ShoppingCart cart) {
         final MonetaryAmount total = cart.getGrossTotal();
         final int fiveDollarDiscounts = total.getNumber().intValueExact() / 100;
-        return Money.of(fiveDollarDiscounts * 5, total.getCurrency());
+        return Money.of(fiveDollarDiscounts * FIVE_CURRENCY_UNITS, total.getCurrency());
     }
 }

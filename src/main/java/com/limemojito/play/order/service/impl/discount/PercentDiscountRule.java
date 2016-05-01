@@ -8,12 +8,16 @@
 
 package com.limemojito.play.order.service.impl.discount;
 
+import com.limemojito.play.order.model.LineItem;
 import com.limemojito.play.order.model.ShoppingCart;
 import com.limemojito.play.order.service.impl.DiscountRule;
+import org.javamoney.moneta.Money;
 
 import javax.money.MonetaryAmount;
+import java.util.List;
 
 public abstract class PercentDiscountRule implements DiscountRule {
+    private static final Money ZERO = Money.of(0, "AUD");
     private final double discountRate;
 
     public PercentDiscountRule(double discountRate) {
@@ -22,6 +26,14 @@ public abstract class PercentDiscountRule implements DiscountRule {
 
     @Override
     public MonetaryAmount calculate(ShoppingCart cart) {
-        return cart.getGrossTotal().multiply(discountRate);
+        final List<LineItem> lineItems = cart.getLineItems();
+        MonetaryAmount totalDiscountableAmount = ZERO;
+        for (LineItem lineItem : lineItems) {
+            if (lineItem.getCategory().isDiscountApplicable()) {
+                totalDiscountableAmount = totalDiscountableAmount.add(lineItem.getTotal());
+            }
+        }
+
+        return totalDiscountableAmount.multiply(discountRate);
     }
 }
