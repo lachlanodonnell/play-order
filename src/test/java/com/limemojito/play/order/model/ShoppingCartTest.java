@@ -34,6 +34,6 @@ public class ShoppingCartTest extends UnitTest {
         cart.add(pojoFactory.createLineItemAud(FURNITURE, 1, 56.78));
         cart.add(pojoFactory.createLineItemAud(GROCERIES, 2, 22.54));
 
-        assertThat(cart.getTotal(), is(Money.of(101.86, "AUD")));
+        assertThat(cart.getGrossTotal(), is(Money.of(101.86, "AUD")));
     }
 }

@@ -40,7 +40,7 @@ public class ShoppingCart {
     }
 
 
-    public MonetaryAmount getTotal() {
+    public MonetaryAmount getGrossTotal() {
         MonetaryAmount total = ZERO;
         for (LineItem lineItem : lineItems) {
             total = total.add(lineItem.getTotal());
