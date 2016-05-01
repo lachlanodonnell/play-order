@@ -31,6 +31,7 @@ import static org.junit.Assert.assertThat;
 
 public class DiscountServiceTest extends UnitTest {
     private static final Customer NO_DISCOUNT_CUTOMER = new Customer("Bob", "Smith", false, false, null);
+    private static final LocalDate FIRST_SHOP_LONG_TIME_AGO = LocalDate.now().minusYears(3);
     private final DiscountService service = new DiscountServiceImpl(asList(new Employee(),
                                                                            new Affiliate(),
                                                                            new LongTermCustomer(),
@@ -62,7 +63,7 @@ public class DiscountServiceTest extends UnitTest {
 
     @Test
     public void shouldComputeAFivePercentForLongTermCustomer() throws Exception {
-        ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", false, false, LocalDate.now().minusYears(3)));
+        ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", false, false, FIRST_SHOP_LONG_TIME_AGO));
         addDiscountableItemsWorthFifty(cart);
 
         performDiscount(cart, 2.5);
@@ -83,6 +84,14 @@ public class DiscountServiceTest extends UnitTest {
         addNonDiscountableItemsWorthFifty(cart);
 
         performDiscount(cart, 0.0);
+    }
+
+    @Test
+    public void shouldOnlyApplyOnePercentageRule() throws Exception {
+        ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", true, true, FIRST_SHOP_LONG_TIME_AGO));
+        addDiscountableItemsWorthFifty(cart);
+
+        performDiscount(cart, 15.0);
     }
 
     private void addItemsThatSumToOneHundred(ShoppingCart cart) {

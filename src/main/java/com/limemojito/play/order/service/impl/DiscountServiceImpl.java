@@ -10,6 +10,7 @@ package com.limemojito.play.order.service.impl;
 
 import com.limemojito.play.order.model.ShoppingCart;
 import com.limemojito.play.order.service.DiscountService;
+import com.limemojito.play.order.service.impl.discount.PercentDiscountRule;
 import org.javamoney.moneta.Money;
 
 import javax.money.MonetaryAmount;
@@ -26,11 +27,24 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     public MonetaryAmount calculateDiscount(ShoppingCart cart) {
         MonetaryAmount totalDiscount = ZERO;
+        boolean percentRuleApplied = false;
         for (DiscountRule discountRule : discountRules) {
-            if (discountRule.applies(cart)) {
+            if (canApplyRule(cart, percentRuleApplied, discountRule)) {
                 totalDiscount = totalDiscount.add(discountRule.calculate(cart));
+                if (discountRule instanceof PercentDiscountRule) {
+                    percentRuleApplied = true;
+                }
             }
         }
         return totalDiscount;
+    }
+
+    private boolean canApplyRule(ShoppingCart cart, boolean percentRuleApplied, DiscountRule discountRule) {
+        final boolean percentDiscount = discountRule instanceof PercentDiscountRule;
+        if (percentDiscount) {
+            return !percentRuleApplied && discountRule.applies(cart);
+        } else {
+            return discountRule.applies(cart);
+        }
     }
 }
