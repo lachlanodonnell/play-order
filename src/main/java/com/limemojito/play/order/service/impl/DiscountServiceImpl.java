@@ -36,16 +36,22 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     private MonetaryAmount calculateDiscount(ShoppingCart cart) {
+        LOGGER.info("Calculating Discount");
         MonetaryAmount totalDiscount = ZERO;
         boolean percentRuleApplied = false;
         for (DiscountRule discountRule : discountRules) {
             if (canApplyRule(cart, percentRuleApplied, discountRule)) {
-                totalDiscount = totalDiscount.add(discountRule.calculate(cart));
+                LOGGER.info("Applying {}", discountRule.getClass().getSimpleName());
+                final MonetaryAmount calculate = discountRule.calculate(cart);
+                LOGGER.debug("Discount is {}", calculate);
+                totalDiscount = totalDiscount.add(calculate);
                 if (discountRule instanceof PercentDiscountRule) {
                     percentRuleApplied = true;
+                    LOGGER.debug("A Percent discount has been applied.");
                 }
             }
         }
+        LOGGER.info("Total Discount is {}", totalDiscount);
         return totalDiscount;
     }
 
