@@ -13,7 +13,7 @@ import com.limemojito.play.order.service.impl.DiscountRule;
 
 import javax.money.MonetaryAmount;
 
-public abstract class PercentDiscountRule extends DiscountRule {
+public abstract class PercentDiscountRule implements DiscountRule {
     private final double discountRate;
 
     public PercentDiscountRule(double discountRate) {
@@ -21,7 +21,7 @@ public abstract class PercentDiscountRule extends DiscountRule {
     }
 
     @Override
-    protected MonetaryAmount performMatchingCalculate(ShoppingCart cart) {
+    public MonetaryAmount calculate(ShoppingCart cart) {
         return cart.getGrossTotal().multiply(discountRate);
     }
 }

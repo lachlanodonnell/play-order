@@ -9,5 +9,15 @@
 package com.limemojito.play.order.model;
 
 public enum InventoryCategory {
-    FURNITURE, GROCERIES
+    FURNITURE(true), GROCERIES(false);
+
+    private final boolean discountApplicable;
+
+    InventoryCategory(boolean discountApplicable) {
+        this.discountApplicable = discountApplicable;
+    }
+
+    public boolean isDiscountApplicable() {
+        return discountApplicable;
+    }
 }

@@ -14,7 +14,7 @@ import org.javamoney.moneta.Money;
 
 import javax.money.MonetaryAmount;
 
-public class DollarsSpent extends DiscountRule {
+public class DollarsSpent implements DiscountRule {
 
     @Override
     public boolean applies(ShoppingCart cart) {
@@ -22,7 +22,7 @@ public class DollarsSpent extends DiscountRule {
     }
 
     @Override
-    protected MonetaryAmount performMatchingCalculate(ShoppingCart cart) {
+    public MonetaryAmount calculate(ShoppingCart cart) {
         final MonetaryAmount total = cart.getGrossTotal();
         final int fiveDollarDiscounts = total.getNumber().intValueExact() / 100;
         return Money.of(fiveDollarDiscounts * 5, total.getCurrency());

@@ -12,12 +12,8 @@ import com.limemojito.play.order.model.ShoppingCart;
 
 import javax.money.MonetaryAmount;
 
-public abstract class DiscountRule {
-    public abstract boolean applies(ShoppingCart cart);
+public interface DiscountRule {
+    boolean applies(ShoppingCart cart);
 
-    public MonetaryAmount calculate(ShoppingCart cart) {
-        return performMatchingCalculate(cart);
-    }
-
-    protected abstract MonetaryAmount performMatchingCalculate(ShoppingCart cart);
+    MonetaryAmount calculate(ShoppingCart cart);
 }
