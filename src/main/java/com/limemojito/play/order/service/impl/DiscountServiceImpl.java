@@ -28,7 +28,7 @@ public class DiscountServiceImpl implements DiscountService {
         MonetaryAmount totalDiscount = ZERO;
         for (DiscountRule discountRule : discountRules) {
             if (discountRule.applies(cart)) {
-                totalDiscount = discountRule.calculate(cart);
+                totalDiscount = totalDiscount.add(discountRule.calculate(cart));
             }
         }
         return totalDiscount;
