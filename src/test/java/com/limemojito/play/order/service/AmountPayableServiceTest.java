@@ -12,7 +12,7 @@ import com.limemojito.play.order.model.Customer;
 import com.limemojito.play.order.model.InventoryCategory;
 import com.limemojito.play.order.model.ShoppingCart;
 import com.limemojito.play.order.model.UnitTest;
-import com.limemojito.play.order.service.impl.DiscountServiceImpl;
+import com.limemojito.play.order.service.impl.AmountPayableServiceImpl;
 import com.limemojito.play.order.service.impl.discount.Affiliate;
 import com.limemojito.play.order.service.impl.discount.DollarsSpent;
 import com.limemojito.play.order.service.impl.discount.Employee;
@@ -30,13 +30,13 @@ import static org.hamcrest.core.Is.is;
 import static org.javamoney.moneta.Money.of;
 import static org.junit.Assert.assertThat;
 
-public class DiscountServiceTest extends UnitTest {
+public class AmountPayableServiceTest extends UnitTest {
     private static final Customer NO_DISCOUNT_CUTOMER = new Customer("Bob", "Smith", false, false, null);
     private static final LocalDate FIRST_SHOP_LONG_TIME_AGO = LocalDate.now().minusYears(3);
-    private final DiscountService service = new DiscountServiceImpl(asList(new Employee(),
-                                                                           new Affiliate(),
-                                                                           new LongTermCustomer(),
-                                                                           new DollarsSpent()));
+    private final AmountPayableService service = new AmountPayableServiceImpl(asList(new Employee(),
+                                                                                     new Affiliate(),
+                                                                                     new LongTermCustomer(),
+                                                                                     new DollarsSpent()));
 
     @Test
     public void shouldApplyNoDiscounts() throws Exception {

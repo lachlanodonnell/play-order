@@ -9,7 +9,7 @@
 package com.limemojito.play.order.service.impl;
 
 import com.limemojito.play.order.model.ShoppingCart;
-import com.limemojito.play.order.service.DiscountService;
+import com.limemojito.play.order.service.AmountPayableService;
 import com.limemojito.play.order.service.impl.discount.PercentDiscountRule;
 import org.javamoney.moneta.Money;
 import org.slf4j.Logger;
@@ -18,12 +18,12 @@ import org.slf4j.LoggerFactory;
 import javax.money.MonetaryAmount;
 import java.util.List;
 
-public class DiscountServiceImpl implements DiscountService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountServiceImpl.class);
+public class AmountPayableServiceImpl implements AmountPayableService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AmountPayableServiceImpl.class);
     private static final Money ZERO = Money.of(0, "AUD");
     private final List<DiscountRule> discountRules;
 
-    public DiscountServiceImpl(List<DiscountRule> discountRules) {
+    public AmountPayableServiceImpl(List<DiscountRule> discountRules) {
         this.discountRules = discountRules;
     }
 
