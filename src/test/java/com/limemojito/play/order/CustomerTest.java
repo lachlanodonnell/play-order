@@ -16,7 +16,7 @@ import static java.time.Month.FEBRUARY;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class UserTest {
+public class CustomerTest {
 
     @Test
     public void shouldBeASimpleModel() throws Exception {
