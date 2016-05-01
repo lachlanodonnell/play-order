@@ -25,6 +25,10 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
+    public MonetaryAmount calculateNetPayable(ShoppingCart cart) {
+        return cart.getGrossTotal().subtract(calculateDiscount(cart));
+    }
+
     public MonetaryAmount calculateDiscount(ShoppingCart cart) {
         MonetaryAmount totalDiscount = ZERO;
         boolean percentRuleApplied = false;

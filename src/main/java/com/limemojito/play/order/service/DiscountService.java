@@ -13,5 +13,5 @@ import com.limemojito.play.order.model.ShoppingCart;
 import javax.money.MonetaryAmount;
 
 public interface DiscountService {
-    MonetaryAmount calculateDiscount(ShoppingCart cart);
+    MonetaryAmount calculateNetPayable(ShoppingCart cart);
 }

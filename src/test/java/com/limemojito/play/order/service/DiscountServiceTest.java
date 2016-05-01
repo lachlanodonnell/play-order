@@ -106,7 +106,8 @@ public class DiscountServiceTest extends UnitTest {
     }
 
     private void performDiscount(ShoppingCart cart, double discountAmount) {
-        assertAmountAud(service.calculateDiscount(cart), discountAmount);
+        final double netAmount = cart.getGrossTotal().getNumber().doubleValueExact() - discountAmount;
+        assertAmountAud(service.calculateNetPayable(cart), netAmount);
     }
 
     private void assertAmountAud(MonetaryAmount discount, double discountAmount) {
