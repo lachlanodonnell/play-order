@@ -12,16 +12,17 @@ import com.limemojito.play.order.model.ShoppingCart;
 
 import javax.money.MonetaryAmount;
 
-public class EmployeeDiscount extends DiscountRule {
-    private static final double DISCOUNT_RATE = 0.3;
+public class AffiliateDiscount extends DiscountRule {
+
+    private static final double DISCOUNT_RATE = 0.10;
 
     @Override
     public boolean applies(ShoppingCart cart) {
-        return cart.getCustomer().isEmployee();
+        return cart.getCustomer().isAffiliate();
     }
 
     @Override
-    public MonetaryAmount performMatchingCalculate(ShoppingCart cart) {
+    protected MonetaryAmount performMatchingCalculate(ShoppingCart cart) {
         return cart.getGrossTotal().multiply(DISCOUNT_RATE);
     }
 }

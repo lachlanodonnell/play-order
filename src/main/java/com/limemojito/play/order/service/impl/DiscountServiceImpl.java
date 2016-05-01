@@ -31,7 +31,6 @@ public class DiscountServiceImpl implements DiscountService {
                 totalDiscount = discountRule.calculate(cart);
             }
         }
-
         return totalDiscount;
     }
 }

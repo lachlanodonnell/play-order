@@ -11,6 +11,7 @@ package com.limemojito.play.order.service;
 import com.limemojito.play.order.model.Customer;
 import com.limemojito.play.order.model.ShoppingCart;
 import com.limemojito.play.order.model.UnitTest;
+import com.limemojito.play.order.service.impl.AffiliateDiscount;
 import com.limemojito.play.order.service.impl.DiscountServiceImpl;
 import com.limemojito.play.order.service.impl.EmployeeDiscount;
 import org.javamoney.moneta.Money;
@@ -19,13 +20,13 @@ import org.junit.Test;
 import javax.money.MonetaryAmount;
 
 import static com.limemojito.play.order.model.InventoryCategory.FURNITURE;
-import static java.util.Collections.singletonList;
+import static java.util.Arrays.asList;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class DiscountServiceTest extends UnitTest {
 
-    private final DiscountService service = new DiscountServiceImpl(singletonList(new EmployeeDiscount()));
+    private final DiscountService service = new DiscountServiceImpl(asList(new EmployeeDiscount(), new AffiliateDiscount()));
 
     @Test
     public void shouldApplyNoDiscounts() throws Exception {
@@ -41,6 +42,14 @@ public class DiscountServiceTest extends UnitTest {
         addItemsThatSumToOneHundred(cart);
 
         performDiscount(cart, 30.0);
+    }
+
+    @Test
+    public void shouldComputeAFivePercentDiscountForAffiliate() throws Exception {
+        ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", false, true, null));
+        addItemsThatSumToOneHundred(cart);
+
+        performDiscount(cart, 10.0);
     }
 
     private void performDiscount(ShoppingCart cart, double discountAmount) {
