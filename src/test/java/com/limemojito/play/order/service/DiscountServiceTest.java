@@ -11,13 +11,16 @@ package com.limemojito.play.order.service;
 import com.limemojito.play.order.model.Customer;
 import com.limemojito.play.order.model.ShoppingCart;
 import com.limemojito.play.order.model.UnitTest;
-import com.limemojito.play.order.service.impl.AffiliateDiscount;
+import com.limemojito.play.order.service.impl.discount.Affiliate;
 import com.limemojito.play.order.service.impl.DiscountServiceImpl;
-import com.limemojito.play.order.service.impl.EmployeeDiscount;
+import com.limemojito.play.order.service.impl.discount.Employee;
+import com.limemojito.play.order.service.impl.discount.LongTermCustomer;
 import org.javamoney.moneta.Money;
 import org.junit.Test;
 
 import javax.money.MonetaryAmount;
+
+import java.time.LocalDate;
 
 import static com.limemojito.play.order.model.InventoryCategory.FURNITURE;
 import static java.util.Arrays.asList;
@@ -26,7 +29,7 @@ import static org.junit.Assert.assertThat;
 
 public class DiscountServiceTest extends UnitTest {
 
-    private final DiscountService service = new DiscountServiceImpl(asList(new EmployeeDiscount(), new AffiliateDiscount()));
+    private final DiscountService service = new DiscountServiceImpl(asList(new Employee(), new Affiliate(), new LongTermCustomer()));
 
     @Test
     public void shouldApplyNoDiscounts() throws Exception {
@@ -50,6 +53,14 @@ public class DiscountServiceTest extends UnitTest {
         addItemsThatSumToOneHundred(cart);
 
         performDiscount(cart, 10.0);
+    }
+
+    @Test
+    public void shouldComputeAFivePercentForLongTermCustomer() throws Exception {
+        ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", false, true, LocalDate.now().minusYears(3)));
+        addItemsThatSumToOneHundred(cart);
+
+        performDiscount(cart, 5.0);
     }
 
     private void performDiscount(ShoppingCart cart, double discountAmount) {

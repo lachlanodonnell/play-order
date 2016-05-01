@@ -6,22 +6,20 @@
  * without the prior written consent of the copyright owner.
  */
 
-package com.limemojito.play.order.service.impl;
+package com.limemojito.play.order.service.impl.discount;
 
 import com.limemojito.play.order.model.ShoppingCart;
 
-import javax.money.MonetaryAmount;
+public class Employee extends PercentDiscountRule {
 
-public class EmployeeDiscount extends DiscountRule {
     private static final double DISCOUNT_RATE = 0.3;
+
+    public Employee() {
+        super(DISCOUNT_RATE);
+    }
 
     @Override
     public boolean applies(ShoppingCart cart) {
         return cart.getCustomer().isEmployee();
-    }
-
-    @Override
-    public MonetaryAmount performMatchingCalculate(ShoppingCart cart) {
-        return cart.getGrossTotal().multiply(DISCOUNT_RATE);
     }
 }
