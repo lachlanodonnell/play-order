@@ -6,25 +6,22 @@
  * without the prior written consent of the copyright owner.
  */
 
-package com.limemojito.play.order;
+package com.limemojito.play.order.model;
 
-import com.limemojito.play.order.model.Customer;
 import org.junit.Test;
 
+import static com.limemojito.play.order.util.ModelAsserter.assertModelBehaviour;
 import static java.time.LocalDate.of;
 import static java.time.Month.FEBRUARY;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class CustomerTest {
 
     @Test
     public void shouldBeASimpleModel() throws Exception {
+        // ok we're keeping it a litte simple here and using first name last name as equality.
         Customer customer = new Customer("Mary", "Smith", true, false, of(2014, FEBRUARY, 22));
-        assertThat(customer.getFirstName(), is("Mary"));
-        assertThat(customer.getLastName(), is("Smith"));
-        assertThat(customer.isAffiliate(), is(false));
-        assertThat(customer.isEmployee(), is(true));
-        assertThat(customer.getFirstShopDate(), is(of(2014, FEBRUARY, 22)));
+        Customer duplicate = new Customer("Mary", "Smith", true, false, of(2014, FEBRUARY, 22));
+        Customer other = new Customer("Jane", "Smith", true, false, of(2014, FEBRUARY, 22));
+        assertModelBehaviour(customer, duplicate, other);
     }
 }

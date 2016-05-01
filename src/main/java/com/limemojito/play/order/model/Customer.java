@@ -8,7 +8,10 @@
 
 package com.limemojito.play.order.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Customer {
     private final String firstName;
@@ -44,4 +47,37 @@ public class Customer {
     public boolean isEmployee() {
         return employee;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Customer)) {
+            return false;
+        }
+        Customer customer = (Customer) o;
+        return employee == customer.employee
+                && affiliate == customer.affiliate
+                && Objects.equals(firstName, customer.firstName)
+                && Objects.equals(firstShopDate, customer.firstShopDate)
+                && Objects.equals(lastName, customer.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, employee, affiliate, firstShopDate, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("firstName", firstName)
+                .append("lastName", lastName)
+                .append("employee", employee)
+                .append("affiliate", affiliate)
+                .append("firstShopDate", firstShopDate)
+                .toString();
+    }
+
 }
