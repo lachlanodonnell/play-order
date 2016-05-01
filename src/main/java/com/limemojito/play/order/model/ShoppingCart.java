@@ -11,6 +11,7 @@ package com.limemojito.play.order.model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.javamoney.moneta.Money;
 
+import javax.money.MonetaryAmount;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +22,7 @@ import static java.util.Collections.unmodifiableList;
  * Assuming one shopping cart per customer
  */
 public class ShoppingCart {
-    private static final Money ZERO = Money.of(0, "AUD");
+    private static final MonetaryAmount ZERO = Money.of(0, "AUD");
     private final Customer customer;
     private final List<LineItem> lineItems;
 
@@ -39,10 +40,10 @@ public class ShoppingCart {
     }
 
 
-    public Money getTotal() {
-        Money total = ZERO;
+    public MonetaryAmount getTotal() {
+        MonetaryAmount total = ZERO;
         for (LineItem lineItem : lineItems) {
-            total = total.add(lineItem.getUnitCost());
+            total = total.add(lineItem.getTotal());
         }
         return total;
     }

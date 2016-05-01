@@ -12,6 +12,7 @@ import org.javamoney.moneta.Money;
 import org.junit.Test;
 
 import static com.limemojito.play.order.model.InventoryCategory.FURNITURE;
+import static com.limemojito.play.order.model.InventoryCategory.GROCERIES;
 import static com.limemojito.play.order.util.ModelAsserter.assertModelBehaviour;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -31,7 +32,8 @@ public class ShoppingCartTest extends UnitTest {
         ShoppingCart cart = new ShoppingCart(pojoFactory.createSimpleCustomer());
 
         cart.add(pojoFactory.createLineItemAud(FURNITURE, 1, 56.78));
+        cart.add(pojoFactory.createLineItemAud(GROCERIES, 2, 22.54));
 
-        assertThat(cart.getTotal(), is(Money.of(56.78, "AUD")));
+        assertThat(cart.getTotal(), is(Money.of(101.86, "AUD")));
     }
 }

@@ -9,16 +9,16 @@
 package com.limemojito.play.order.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.javamoney.moneta.Money;
 
+import javax.money.MonetaryAmount;
 import java.util.Objects;
 
 public class LineItem {
     private final InventoryCategory category;
     private final double quantity;
-    private final Money unitCost;
+    private final MonetaryAmount unitCost;
 
-    public LineItem(InventoryCategory category, double quantity, Money unitCost) {
+    public LineItem(InventoryCategory category, double quantity, MonetaryAmount unitCost) {
         this.category = category;
         this.quantity = quantity;
         this.unitCost = unitCost;
@@ -32,7 +32,7 @@ public class LineItem {
         return quantity;
     }
 
-    public Money getUnitCost() {
+    public MonetaryAmount getUnitCost() {
         return unitCost;
     }
 
@@ -65,4 +65,7 @@ public class LineItem {
     }
 
 
+    public MonetaryAmount getTotal() {
+        return unitCost.multiply(quantity);
+    }
 }

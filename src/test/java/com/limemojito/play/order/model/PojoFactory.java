@@ -8,7 +8,6 @@
 
 package com.limemojito.play.order.model;
 
-import static com.limemojito.play.order.model.InventoryCategory.GROCERIES;
 import static java.time.LocalDate.of;
 import static java.time.Month.FEBRUARY;
 import static org.javamoney.moneta.Money.of;
@@ -19,6 +18,6 @@ public class PojoFactory {
     }
 
     public LineItem createLineItemAud(InventoryCategory category, double quantity, double currencyAmount) {
-        return new LineItem(GROCERIES, quantity, of(currencyAmount, "AUD"));
+        return new LineItem(category, quantity, of(currencyAmount, "AUD"));
     }
 }
