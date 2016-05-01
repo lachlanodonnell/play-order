@@ -9,9 +9,22 @@
 package com.limemojito.play.order.service;
 
 import com.limemojito.play.order.model.ShoppingCart;
+import org.javamoney.moneta.Money;
 
 import javax.money.MonetaryAmount;
 
-public interface DiscountService {
-    MonetaryAmount calculateDiscount(ShoppingCart cart);
+public class DiscountServiceImpl implements DiscountService {
+
+    private static final double THRITY_PERCENT_DISCOUNT = 0.3;
+
+    @Override
+    public MonetaryAmount calculateDiscount(ShoppingCart cart) {
+        MonetaryAmount totalDiscount = Money.of(0, "AUD");
+
+        if (cart.getCustomer().isEmployee()) {
+            totalDiscount = cart.getGrossTotal().multiply(THRITY_PERCENT_DISCOUNT);
+        }
+
+        return totalDiscount;
+    }
 }

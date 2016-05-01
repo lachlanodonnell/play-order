@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
 
 public class DiscountServiceTest extends UnitTest {
 
-    private final DiscountService service = new DiscountService();
+    private final DiscountService service = new DiscountServiceImpl();
 
     @Test
     public void shouldApplyNoDiscounts() throws Exception {
@@ -40,6 +40,11 @@ public class DiscountServiceTest extends UnitTest {
         performDiscount(cart, 30.0);
     }
 
+    @Test
+    public void should() throws Exception {
+        
+    }
+    
     private void performDiscount(ShoppingCart cart, double discountAmount) {
         assertAmountAud(service.calculateDiscount(cart), discountAmount);
     }
