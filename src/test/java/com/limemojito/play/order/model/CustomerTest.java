@@ -14,14 +14,15 @@ import static com.limemojito.play.order.util.ModelAsserter.assertModelBehaviour;
 import static java.time.LocalDate.of;
 import static java.time.Month.FEBRUARY;
 
-public class CustomerTest {
+public class CustomerTest extends UnitTest {
 
     @Test
     public void shouldBeASimpleModel() throws Exception {
         // ok we're keeping it a litte simple here and using first name last name as equality.
-        Customer customer = new Customer("Mary", "Smith", true, false, of(2014, FEBRUARY, 22));
-        Customer duplicate = new Customer("Mary", "Smith", true, false, of(2014, FEBRUARY, 22));
+        Customer customer = pojoFactory.createSimpleCustomer();
+        Customer duplicate = pojoFactory.createSimpleCustomer();
         Customer other = new Customer("Jane", "Smith", true, false, of(2014, FEBRUARY, 22));
         assertModelBehaviour(customer, duplicate, other);
     }
+
 }

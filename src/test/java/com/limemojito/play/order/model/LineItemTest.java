@@ -10,20 +10,18 @@ package com.limemojito.play.order.model;
 
 import org.junit.Test;
 
-import java.math.BigDecimal;
-import java.util.Currency;
-
+import static com.limemojito.play.order.model.InventoryCategory.FURNITURE;
+import static com.limemojito.play.order.model.InventoryCategory.GROCERIES;
 import static com.limemojito.play.order.util.ModelAsserter.assertModelBehaviour;
+import static org.javamoney.moneta.Money.of;
 
-public class LineItemTest {
-
-    private static final Currency AUD = Currency.getInstance("AUD");
+public class LineItemTest extends UnitTest {
 
     @Test
     public void shouldBeASimpleModel() throws Exception {
-        LineItem lineItem = new LineItem(InventoryCategory.GROCERIES, 12, new Money(AUD, new BigDecimal(12.50)));
-        LineItem duplicate = new LineItem(InventoryCategory.GROCERIES, 12, new Money(AUD, new BigDecimal(12.50)));
-        LineItem other = new LineItem(InventoryCategory.FURNITURE, 1, new Money(AUD, new BigDecimal(56.50)));
+        LineItem lineItem = pojoFactory.createLineItemAud(GROCERIES, 12, 12.5);;
+        LineItem duplicate = new LineItem(GROCERIES, 12, of(12.50, "AUD"));
+        LineItem other = new LineItem(FURNITURE, 1, of(33.50, "AUD"));
         assertModelBehaviour(lineItem, duplicate, other);
     }
 }
