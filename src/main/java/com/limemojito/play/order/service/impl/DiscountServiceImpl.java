@@ -6,23 +6,30 @@
  * without the prior written consent of the copyright owner.
  */
 
-package com.limemojito.play.order.service;
+package com.limemojito.play.order.service.impl;
 
 import com.limemojito.play.order.model.ShoppingCart;
+import com.limemojito.play.order.service.DiscountService;
 import org.javamoney.moneta.Money;
 
 import javax.money.MonetaryAmount;
+import java.util.List;
 
 public class DiscountServiceImpl implements DiscountService {
+    private static final Money ZERO = Money.of(0, "AUD");
+    private final List<DiscountRule> discountRules;
 
-    private static final double THRITY_PERCENT_DISCOUNT = 0.3;
+    public DiscountServiceImpl(List<DiscountRule> discountRules) {
+        this.discountRules = discountRules;
+    }
 
     @Override
     public MonetaryAmount calculateDiscount(ShoppingCart cart) {
-        MonetaryAmount totalDiscount = Money.of(0, "AUD");
-
-        if (cart.getCustomer().isEmployee()) {
-            totalDiscount = cart.getGrossTotal().multiply(THRITY_PERCENT_DISCOUNT);
+        MonetaryAmount totalDiscount = ZERO;
+        for (DiscountRule discountRule : discountRules) {
+            if (discountRule.applies(cart)) {
+                totalDiscount = discountRule.calculate(cart);
+            }
         }
 
         return totalDiscount;
