@@ -27,6 +27,10 @@
     <!-- Dependencies have versions managed with DependencyManagement section.  This section is for scope configuration -->
     <dependencies>
         <dependency>
+            <groupId>org.javamoney</groupId>
+            <artifactId>moneta</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
@@ -51,6 +55,11 @@
     <!-- Manage the dependencies so that versions are covered by the transitive closure (ie same versions always). -->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.javamoney</groupId>
+                <artifactId>moneta</artifactId>
+                <version>1.0</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>

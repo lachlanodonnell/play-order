@@ -9,6 +9,7 @@
 package com.limemojito.play.order.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.javamoney.moneta.Money;
 
 import java.util.Objects;
 
