@@ -12,11 +12,14 @@ import com.limemojito.play.order.model.ShoppingCart;
 import com.limemojito.play.order.service.DiscountService;
 import com.limemojito.play.order.service.impl.discount.PercentDiscountRule;
 import org.javamoney.moneta.Money;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.money.MonetaryAmount;
 import java.util.List;
 
 public class DiscountServiceImpl implements DiscountService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountServiceImpl.class);
     private static final Money ZERO = Money.of(0, "AUD");
     private final List<DiscountRule> discountRules;
 
@@ -26,10 +29,13 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     public MonetaryAmount calculateNetPayable(ShoppingCart cart) {
-        return cart.getGrossTotal().subtract(calculateDiscount(cart));
+        LOGGER.info("Calculating net payable for {}", cart);
+        final MonetaryAmount netPayable = cart.getGrossTotal().subtract(calculateDiscount(cart));
+        LOGGER.info("Net Payable is {}", netPayable);
+        return netPayable;
     }
 
-    public MonetaryAmount calculateDiscount(ShoppingCart cart) {
+    private MonetaryAmount calculateDiscount(ShoppingCart cart) {
         MonetaryAmount totalDiscount = ZERO;
         boolean percentRuleApplied = false;
         for (DiscountRule discountRule : discountRules) {

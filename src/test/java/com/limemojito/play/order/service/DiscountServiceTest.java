@@ -17,6 +17,7 @@ import com.limemojito.play.order.service.impl.discount.Affiliate;
 import com.limemojito.play.order.service.impl.discount.DollarsSpent;
 import com.limemojito.play.order.service.impl.discount.Employee;
 import com.limemojito.play.order.service.impl.discount.LongTermCustomer;
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import javax.money.MonetaryAmount;
@@ -42,7 +43,7 @@ public class DiscountServiceTest extends UnitTest {
         ShoppingCart cart = new ShoppingCart(NO_DISCOUNT_CUTOMER);
         addDiscountableItemsWorthFifty(cart);
 
-        performDiscount(cart, 0);
+        assertThat(service.calculateNetPayable(cart), isAUD(50));
     }
 
     @Test
@@ -50,7 +51,7 @@ public class DiscountServiceTest extends UnitTest {
         ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", true, false, null));
         addDiscountableItemsWorthFifty(cart);
 
-        performDiscount(cart, 15.0);
+        assertThat(service.calculateNetPayable(cart), isAUD(35.0));
     }
 
     @Test
@@ -58,7 +59,7 @@ public class DiscountServiceTest extends UnitTest {
         ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", false, true, null));
         addDiscountableItemsWorthFifty(cart);
 
-        performDiscount(cart, 5.0);
+        assertThat(service.calculateNetPayable(cart), isAUD(45.0));
     }
 
     @Test
@@ -66,7 +67,7 @@ public class DiscountServiceTest extends UnitTest {
         ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", false, false, FIRST_SHOP_LONG_TIME_AGO));
         addDiscountableItemsWorthFifty(cart);
 
-        performDiscount(cart, 2.5);
+        assertThat(service.calculateNetPayable(cart), isAUD(47.5));
     }
 
     @Test
@@ -75,7 +76,7 @@ public class DiscountServiceTest extends UnitTest {
         addItemsThatSumToOneHundred(cart);
         addItemsThatSumToOneHundred(cart);
 
-        performDiscount(cart, 10.0);
+        assertThat(service.calculateNetPayable(cart), isAUD(190.0));
     }
 
     @Test
@@ -83,7 +84,7 @@ public class DiscountServiceTest extends UnitTest {
         ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", true, false, null));
         addNonDiscountableItemsWorthFifty(cart);
 
-        performDiscount(cart, 0.0);
+        assertThat(service.calculateNetPayable(cart), isAUD(50.0));
     }
 
     @Test
@@ -91,7 +92,7 @@ public class DiscountServiceTest extends UnitTest {
         ShoppingCart cart = new ShoppingCart(new Customer("Bob", "Smith", true, true, FIRST_SHOP_LONG_TIME_AGO));
         addDiscountableItemsWorthFifty(cart);
 
-        performDiscount(cart, 15.0);
+        assertThat(service.calculateNetPayable(cart), isAUD(35.0));
     }
 
     private void addItemsThatSumToOneHundred(ShoppingCart cart) {
@@ -103,15 +104,6 @@ public class DiscountServiceTest extends UnitTest {
 
     private void addNonDiscountableItemsWorthFifty(ShoppingCart cart) {
         addItemsToTheValueOfFifty(cart, GROCERIES);
-    }
-
-    private void performDiscount(ShoppingCart cart, double discountAmount) {
-        final double netAmount = cart.getGrossTotal().getNumber().doubleValueExact() - discountAmount;
-        assertAmountAud(service.calculateNetPayable(cart), netAmount);
-    }
-
-    private void assertAmountAud(MonetaryAmount discount, double discountAmount) {
-        assertThat(discount, is(of(discountAmount, "AUD")));
     }
 
     private void addDiscountableItemsWorthFifty(ShoppingCart cart) {
@@ -129,4 +121,7 @@ public class DiscountServiceTest extends UnitTest {
         assertThat(cart.getGrossTotal(), is(before.add(of(updatedAmount, before.getCurrency()))));
     }
 
+    private Matcher<MonetaryAmount> isAUD(double audValue) {
+        return is(of(audValue, "AUD"));
+    }
 }
