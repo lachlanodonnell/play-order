@@ -13,7 +13,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <java.version>1.8</java.version>
-        <version.checkstyle>6.17</version.checkstyle>
+        <version.checkstyle>8.21</version.checkstyle>
 
         <!-- A practical coverage ratio of 90%.  Branch coverage has become flawed in Java 7+ with jacoco. -->
         <coverage.line.ratio>0.9</coverage.line.ratio>
@@ -73,12 +73,12 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>1.1.3</version>
+                <version>1.2.11</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.12</version>
+                <version>4.13.2</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -106,14 +106,14 @@
             <!-- Configure compiler to be strict and against java version -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.12.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <showDeprecation>true</showDeprecation>
                     <compilerArgs>
                         <!-- I don't like warnings and fluffy code -->
-                        <compilerArg>-Werror</compilerArg>
+<!--                        <compilerArg>-Werror   We're keeping up to date with libraries now.</compilerArg>-->
                         <compilerArg>-Xlint:all</compilerArg>
                     </compilerArgs>
                 </configuration>
@@ -121,7 +121,7 @@
             <!-- Some enforcing of versions for build environment and dependencies -->
             <plugin>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
+                <version>3.4.1</version>
                 <executions>
                     <execution>
                         <id>enforce-versions</id>
@@ -146,7 +146,7 @@
             <!-- Checkstyle versus a public standards file -->
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.15</version>
+                <version>3.3.1</version>
                 <dependencies>
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
@@ -171,8 +171,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <configLocation>http://www.limemojito.com/standards/consulting-checkstyle.xml</configLocation>
-                    <encoding>UTF-8</encoding>
+                    <configLocation>http://standards.limemojito.com/oss-checkstyle.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
                 </configuration>
@@ -181,7 +180,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.5.201505241946</version>
+                <version>0.8.11</version>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
@@ -237,7 +236,7 @@
             <!-- Configure unit testing plugin -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>3.2.5</version>
                 <configuration>
                     <!-- Include set arglines such as jacoco -->
                     <!--suppress MavenModelInspection -->
