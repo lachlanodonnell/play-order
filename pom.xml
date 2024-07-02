@@ -13,7 +13,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <java.version>1.8</java.version>
-        <version.checkstyle>8.21</version.checkstyle>
+        <version.checkstyle>8.29</version.checkstyle>
 
         <!-- A practical coverage ratio of 90%.  Branch coverage has become flawed in Java 7+ with jacoco. -->
         <coverage.line.ratio>0.9</coverage.line.ratio>
